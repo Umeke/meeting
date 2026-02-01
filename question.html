@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating background elements */
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 12s;
+        }
+
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, #5f27cd, #341f97);
+            top: 60%;
+            left: 5%;
+            animation-delay: 2s;
+            animation-duration: 18s;
+        }
+
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #00d2d3, #01a3a4);
+            top: 20%;
+            right: 15%;
+            animation-delay: 4s;
+            animation-duration: 14s;
+        }
+
+        .shape:nth-child(4) {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(45deg, #ff9ff3, #f368e0);
+            bottom: 10%;
+            right: 10%;
+            animation-delay: 1s;
+            animation-duration: 20s;
+        }
+
+        .shape:nth-child(5) {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #54a0ff, #2e86de);
+            top: 40%;
+            left: 30%;
+            animation-delay: 3s;
+            animation-duration: 10s;
+        }
+
+        .shape:nth-child(6) {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #5f27cd, #c44569);
+            bottom: 30%;
+            left: 50%;
+            animation-delay: 5s;
+            animation-duration: 16s;
+        }
+
+        .shape:nth-child(7) {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, #26de81, #20bf6b);
+            top: 70%;
+            right: 30%;
+            animation-delay: 2.5s;
+            animation-duration: 13s;
+        }
+
+        .shape:nth-child(8) {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(45deg, #fd79a8, #e84393);
+            top: 5%;
+            right: 40%;
+            animation-delay: 6s;
+            animation-duration: 17s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+            }
+            25% {
+                transform: translate(30px, -30px) rotate(90deg) scale(1.1);
+            }
+            50% {
+                transform: translate(-20px, 20px) rotate(180deg) scale(0.9);
+            }
+            75% {
+                transform: translate(20px, 40px) rotate(270deg) scale(1.05);
+            }
+        }
+
+        /* Glowing particles */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.5); }
+        }
+
+        /* Main content */
+        .container {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 50px 60px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            letter-spacing: 1px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 0;
+            justify-content: center;
+        }
+
+        button {
+            padding: 16px 55px;
+            font-size: 1.1rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        #yesBtn {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 184, 148, 0.4);
+            border-radius: 50px 0 0 50px;
+        }
+
+        #yesBtn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 184, 148, 0.5);
+        }
+
+        #yesBtn:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        #noBtn {
+            background: linear-gradient(135deg, #e17055, #d63031);
+            color: white;
+            box-shadow: 0 10px 30px rgba(214, 48, 49, 0.4);
+            transition: all 0.15s ease-out;
+            border-radius: 0 50px 50px 0;
+        }
+
+        #noBtnEscape {
+            background: linear-gradient(135deg, #e17055, #d63031);
+            color: white;
+            position: fixed;
+            box-shadow: 0 10px 30px rgba(214, 48, 49, 0.4);
+            transition: all 0.15s ease-out;
+            border-radius: 50px;
+            z-index: 9999;
+            display: none;
+            padding: 16px 55px;
+            font-size: 1.1rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .message {
+            display: none;
+            color: white;
+            font-size: 1.5rem;
+            margin-top: 35px;
+            animation: bounceIn 0.6s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .heart {
+            display: inline-block;
+            color: #ff6b6b;
+            animation: heartbeat 1s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Lava Lamp Blobs */
+        .lava-lamp {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            mix-blend-mode: screen;
+            animation: lava-float 15s ease-in-out infinite;
+            opacity: 0.6;
+        }
+
+        .blob:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 100, 150, 0.8), transparent 70%);
+            top: 10%;
+            left: 10%;
+            animation-duration: 18s;
+        }
+
+        .blob:nth-child(2) {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(100, 150, 255, 0.8), transparent 70%);
+            top: 50%;
+            right: 15%;
+            animation-duration: 15s;
+            animation-delay: -5s;
+        }
+
+        .blob:nth-child(3) {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(255, 200, 100, 0.7), transparent 70%);
+            bottom: 10%;
+            left: 30%;
+            animation-duration: 20s;
+            animation-delay: -10s;
+        }
+
+        .blob:nth-child(4) {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(150, 255, 200, 0.8), transparent 70%);
+            top: 30%;
+            left: 50%;
+            animation-duration: 12s;
+            animation-delay: -3s;
+        }
+
+        .blob:nth-child(5) {
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, rgba(200, 100, 255, 0.7), transparent 70%);
+            bottom: 30%;
+            right: 10%;
+            animation-duration: 17s;
+            animation-delay: -8s;
+        }
+
+        @keyframes lava-float {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(50px, -80px) scale(1.1);
+            }
+            50% {
+                transform: translate(-30px, 50px) scale(0.9);
+            }
+            75% {
+                transform: translate(80px, 30px) scale(1.05);
+            }
+        }
+
+        /* Drawing Canvas */
+        .drawing-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            pointer-events: none;
+            background: transparent;
+        }
+
+        .drawing-canvas.active {
+            pointer-events: auto;
+            cursor: crosshair;
+        }
+
+        /* Drawing Toggle Button */
+        .draw-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 80px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(30, 30, 50, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            z-index: 9999;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .draw-toggle:hover {
+            background: rgba(50, 50, 80, 0.9);
+            transform: scale(1.1);
+        }
+
+        .draw-toggle.active {
+            background: rgba(255, 100, 100, 0.5);
+            border-color: rgba(255, 100, 100, 0.6);
+        }
+
+        /* Constellation Canvas */
+        .constellation-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+            background: transparent;
+        }
+
+        /* Music Toggle Button */
+        .music-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(30, 30, 50, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            z-index: 9999;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-toggle:hover {
+            background: rgba(50, 50, 80, 0.9);
+            transform: scale(1.1);
+        }
+
+        /* Cursor Sparkles */
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            border-radius: 50%;
+            animation: sparkle-fade 0.8s ease-out forwards;
+        }
+
+        @keyframes sparkle-fade {
+            0% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0) rotate(180deg);
+                opacity: 0;
+            }
+        }
+
+        /* Snowflakes */
+        .snowflake {
+            position: fixed;
+            top: -20px;
+            color: white;
+            font-size: 1.5rem;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.7;
+            animation: fall linear forwards;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+
+        /* DVD Bouncing Logo */
+        .dvd-logo {
+            position: absolute;
+            z-index: 1;
+            font-family: 'Arial Black', sans-serif;
+            font-size: 3rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 0.6;
+            text-shadow: 0 0 20px currentColor;
+            transition: color 0.1s;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Lava Lamp Blobs -->
+    <div class="lava-lamp">
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="blob"></div>
+    </div>
+
+    <!-- Drawing Canvas -->
+    <canvas class="drawing-canvas" id="drawingCanvas"></canvas>
+
+    <!-- Constellation Canvas -->
+    <canvas class="constellation-canvas" id="constellationCanvas"></canvas>
+
+    <!-- Draw Toggle Button -->
+    <button class="draw-toggle" id="drawToggle" title="Toggle Drawing Mode">✏️</button>
+
+    <!-- Music Toggle Button -->
+    <button class="music-toggle" id="musicToggle" title="Toggle Music">🔇</button>
+
+    <!-- Bouncing DVD Logos -->
+    <div class="dvd-logo" id="dvdLogo1">DVD</div>
+    <div class="dvd-logo" id="dvdLogo2">DVD</div>
+    <div class="dvd-logo" id="dvdLogo3">DVD</div>
+    <div class="dvd-logo" id="dvdLogo4">DVD</div>
+
+    <!-- Floating background shapes -->
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <!-- Twinkling particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Main content -->
+    <div class="container">
+        <div class="card">
+            <h1>Кездесуге келе аласыз ба?</h1>
+            <div class="buttons">
+                <button id="yesBtn">Иә</button>
+                <button id="noBtn">Жоқ</button>
+            </div>
+            <p class="message" id="message"></p>
+        </div>
+    </div>
+
+    <!-- No button that escapes (at body level for proper positioning) -->
+    <button id="noBtnEscape">Жоқ</button>
+
+    <script>
+        // Drawing Mode
+        const drawingCanvas = document.getElementById('drawingCanvas');
+        const drawCtx = drawingCanvas.getContext('2d');
+        const drawToggle = document.getElementById('drawToggle');
+        let isDrawingMode = false;
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        let hue = 0;
+
+        // Set canvas size
+        function resizeDrawingCanvas() {
+            drawingCanvas.width = window.innerWidth;
+            drawingCanvas.height = window.innerHeight;
+        }
+        resizeDrawingCanvas();
+        window.addEventListener('resize', resizeDrawingCanvas);
+
+        // Drawing functions
+        function startDrawing(e) {
+            if (!isDrawingMode) return;
+            isDrawing = true;
+            [lastX, lastY] = [e.clientX, e.clientY];
+        }
+
+        function draw(e) {
+            if (!isDrawing || !isDrawingMode) return;
+
+            drawCtx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+            drawCtx.lineWidth = 3;
+            drawCtx.lineCap = 'round';
+            drawCtx.shadowBlur = 10;
+            drawCtx.shadowColor = `hsl(${hue}, 100%, 50%)`;
+
+            drawCtx.beginPath();
+            drawCtx.moveTo(lastX, lastY);
+            drawCtx.lineTo(e.clientX, e.clientY);
+            drawCtx.stroke();
+
+            [lastX, lastY] = [e.clientX, e.clientY];
+            hue = (hue + 1) % 360;
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        drawingCanvas.addEventListener('mousedown', startDrawing);
+        drawingCanvas.addEventListener('mousemove', draw);
+        drawingCanvas.addEventListener('mouseup', stopDrawing);
+        drawingCanvas.addEventListener('mouseout', stopDrawing);
+
+        // Toggle drawing mode
+        drawToggle.addEventListener('click', () => {
+            isDrawingMode = !isDrawingMode;
+            drawingCanvas.classList.toggle('active', isDrawingMode);
+            drawToggle.classList.toggle('active', isDrawingMode);
+            drawToggle.textContent = isDrawingMode ? '🎨' : '✏️';
+        });
+
+        // Constellation Lines
+        const constellationCanvas = document.getElementById('constellationCanvas');
+        const constCtx = constellationCanvas.getContext('2d');
+        const dots = [];
+        const numDots = 50;
+        const connectionDistance = 150;
+
+        function resizeConstellationCanvas() {
+            constellationCanvas.width = window.innerWidth;
+            constellationCanvas.height = window.innerHeight;
+        }
+        resizeConstellationCanvas();
+        window.addEventListener('resize', resizeConstellationCanvas);
+
+        // Create dots
+        for (let i = 0; i < numDots; i++) {
+            dots.push({
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                radius: Math.random() * 2 + 1
+            });
+        }
+
+        function animateConstellation() {
+            constCtx.clearRect(0, 0, constellationCanvas.width, constellationCanvas.height);
+
+            // Update and draw dots
+            dots.forEach(dot => {
+                // Move dot
+                dot.x += dot.vx;
+                dot.y += dot.vy;
+
+                // Bounce off edges
+                if (dot.x < 0 || dot.x > constellationCanvas.width) dot.vx *= -1;
+                if (dot.y < 0 || dot.y > constellationCanvas.height) dot.vy *= -1;
+
+                // Draw dot
+                constCtx.beginPath();
+                constCtx.arc(dot.x, dot.y, dot.radius, 0, Math.PI * 2);
+                constCtx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                constCtx.fill();
+            });
+
+            // Draw connections
+            for (let i = 0; i < dots.length; i++) {
+                for (let j = i + 1; j < dots.length; j++) {
+                    const dx = dots[i].x - dots[j].x;
+                    const dy = dots[i].y - dots[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < connectionDistance) {
+                        const opacity = 1 - (distance / connectionDistance);
+                        constCtx.beginPath();
+                        constCtx.moveTo(dots[i].x, dots[i].y);
+                        constCtx.lineTo(dots[j].x, dots[j].y);
+                        constCtx.strokeStyle = `rgba(100, 200, 255, ${opacity * 0.5})`;
+                        constCtx.lineWidth = 1;
+                        constCtx.stroke();
+                    }
+                }
+            }
+
+            requestAnimationFrame(animateConstellation);
+        }
+
+        animateConstellation();
+
+        // Ambient Music
+        const musicToggle = document.getElementById('musicToggle');
+        let musicPlaying = false;
+        let ambientCtx = null;
+        let ambientNodes = [];
+
+        function createAmbientMusic() {
+            ambientCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+            // Create multiple oscillators for a rich ambient sound
+            const frequencies = [65.41, 82.41, 98.00, 130.81]; // C2, E2, G2, C3 - calm chord
+
+            frequencies.forEach((freq, i) => {
+                const oscillator = ambientCtx.createOscillator();
+                const gainNode = ambientCtx.createGain();
+                const filter = ambientCtx.createBiquadFilter();
+
+                oscillator.type = 'sine';
+                oscillator.frequency.value = freq;
+
+                filter.type = 'lowpass';
+                filter.frequency.value = 800;
+
+                gainNode.gain.value = 0.03;
+
+                // Add slow volume modulation for movement
+                const lfo = ambientCtx.createOscillator();
+                const lfoGain = ambientCtx.createGain();
+                lfo.frequency.value = 0.1 + (i * 0.05);
+                lfoGain.gain.value = 0.01;
+                lfo.connect(lfoGain);
+                lfoGain.connect(gainNode.gain);
+                lfo.start();
+
+                oscillator.connect(filter);
+                filter.connect(gainNode);
+                gainNode.connect(ambientCtx.destination);
+
+                oscillator.start();
+
+                ambientNodes.push({ oscillator, gainNode, lfo });
+            });
+        }
+
+        function toggleMusic() {
+            if (!musicPlaying) {
+                if (!ambientCtx) {
+                    createAmbientMusic();
+                } else {
+                    ambientCtx.resume();
+                }
+                musicToggle.textContent = '🔊';
+                musicPlaying = true;
+            } else {
+                if (ambientCtx) {
+                    ambientCtx.suspend();
+                }
+                musicToggle.textContent = '🔇';
+                musicPlaying = false;
+            }
+        }
+
+        musicToggle.addEventListener('click', toggleMusic);
+
+        // Cursor Sparkles
+        const sparkleColors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff', '#5f27cd', '#00d2d3', '#26de81'];
+
+        document.addEventListener('mousemove', (e) => {
+            // Create multiple sparkles for a trail effect
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    createSparkle(e.clientX, e.clientY);
+                }, i * 50);
+            }
+        });
+
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+
+            const size = Math.random() * 15 + 5;
+            const color = sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
+            const offsetX = (Math.random() - 0.5) * 30;
+            const offsetY = (Math.random() - 0.5) * 30;
+
+            sparkle.style.width = size + 'px';
+            sparkle.style.height = size + 'px';
+            sparkle.style.left = (x + offsetX) + 'px';
+            sparkle.style.top = (y + offsetY) + 'px';
+            sparkle.style.background = `radial-gradient(circle, ${color}, transparent)`;
+            sparkle.style.boxShadow = `0 0 ${size}px ${color}`;
+
+            document.body.appendChild(sparkle);
+
+            // Remove sparkle after animation
+            setTimeout(() => sparkle.remove(), 800);
+        }
+
+        // Snowflakes
+        const snowflakes = ['❄', '❅', '❆', '✦', '✧'];
+
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            snowflake.textContent = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+
+            const startX = Math.random() * window.innerWidth;
+            const duration = Math.random() * 5 + 5; // 5-10 seconds
+            const size = Math.random() * 1.5 + 0.5;
+            const sway = Math.random() * 100 - 50;
+
+            snowflake.style.left = startX + 'px';
+            snowflake.style.fontSize = size + 'rem';
+            snowflake.style.animationDuration = duration + 's';
+            snowflake.style.opacity = Math.random() * 0.5 + 0.3;
+
+            document.body.appendChild(snowflake);
+
+            // Remove snowflake after it falls
+            setTimeout(() => snowflake.remove(), duration * 1000);
+        }
+
+        // Create snowflakes periodically
+        setInterval(createSnowflake, 300);
+
+        // Create initial batch of snowflakes
+        for (let i = 0; i < 20; i++) {
+            setTimeout(createSnowflake, i * 100);
+        }
+
+        // DVD Bouncing Animation
+        const colors = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff', '#5f27cd', '#00d2d3', '#26de81', '#fd79a8'];
+
+        // Audio context for bounce sound
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playBounceSound() {
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.frequency.value = 200 + Math.random() * 100;
+            oscillator.type = 'sine';
+
+            gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+
+            oscillator.start(audioCtx.currentTime);
+            oscillator.stop(audioCtx.currentTime + 0.1);
+        }
+
+        // Create DVD objects
+        function createDVD(id, startX, startY, speedX, speedY) {
+            const element = document.getElementById(id);
+            let x = startX;
+            let y = startY;
+            let vx = speedX;
+            let vy = speedY;
+            let colorIndex = Math.floor(Math.random() * colors.length);
+
+            element.style.color = colors[colorIndex];
+
+            function changeColor() {
+                colorIndex = (colorIndex + 1) % colors.length;
+                element.style.color = colors[colorIndex];
+                playBounceSound();
+            }
+
+            function animate() {
+                const rect = element.getBoundingClientRect();
+                const maxX = window.innerWidth - rect.width;
+                const maxY = window.innerHeight - rect.height;
+
+                x += vx;
+                y += vy;
+
+                // Bounce off left and right walls
+                if (x <= 0) {
+                    x = 0;
+                    vx = -vx;
+                    changeColor();
+                } else if (x >= maxX) {
+                    x = maxX;
+                    vx = -vx;
+                    changeColor();
+                }
+
+                // Bounce off top and bottom walls
+                if (y <= 0) {
+                    y = 0;
+                    vy = -vy;
+                    changeColor();
+                } else if (y >= maxY) {
+                    y = maxY;
+                    vy = -vy;
+                    changeColor();
+                }
+
+                element.style.left = x + 'px';
+                element.style.top = y + 'px';
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        // Start 4 DVDs with different positions and speeds
+        createDVD('dvdLogo1', 50, 50, 1.2, 0.8);
+        createDVD('dvdLogo2', 400, 300, -1, 1.1);
+        createDVD('dvdLogo3', 200, 500, 0.9, -1.3);
+        createDVD('dvdLogo4', 600, 100, -1.1, -0.9);
+
+        // Create twinkling particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 3 + 's';
+            particle.style.animationDuration = (2 + Math.random() * 3) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        const noBtn = document.getElementById('noBtn');
+        const noBtnEscape = document.getElementById('noBtnEscape');
+        const yesBtn = document.getElementById('yesBtn');
+        const message = document.getElementById('message');
+
+        function moveButton() {
+            // Hide original No button and show the escape one
+            noBtn.style.visibility = 'hidden';
+            noBtnEscape.style.display = 'block';
+
+            const maxX = window.innerWidth - noBtnEscape.offsetWidth - 20;
+            const maxY = window.innerHeight - noBtnEscape.offsetHeight - 20;
+
+            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+
+            noBtnEscape.style.left = randomX + 'px';
+            noBtnEscape.style.top = randomY + 'px';
+        }
+
+        noBtn.addEventListener('mouseenter', moveButton);
+        noBtn.addEventListener('touchstart', moveButton);
+        noBtnEscape.addEventListener('mouseenter', moveButton);
+        noBtnEscape.addEventListener('touchstart', moveButton);
+
+        yesBtn.addEventListener('click', function() {
+            message.innerHTML = 'Рахмет! ';
+            message.style.display = 'block';
+
+            // Hide both No buttons
+            noBtn.style.display = 'none';
+            noBtnEscape.style.display = 'none';
+
+            // Send Telegram notification
+            const botToken = '8271687813:AAG3eJYqMvpEoYnTTAefElCAieWiBKD4IbE';
+            const chatId = '390523806';
+            const text = '🎉 Біреу ИӘ басты! Кездесуге келеді!';
+
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: text
+                })
+            });
+        });
+    </script>
+</body>
+</html>
