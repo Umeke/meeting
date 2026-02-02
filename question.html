@@ -500,6 +500,100 @@
             transition: color 0.1s;
             pointer-events: none;
         }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .card {
+                padding: 35px 25px;
+                margin: 15px;
+                border-radius: 20px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 30px;
+            }
+
+            button {
+                padding: 14px 35px;
+                font-size: 1rem;
+                letter-spacing: 1px;
+            }
+
+            #noBtnEscape {
+                padding: 14px 35px;
+                font-size: 1rem;
+                letter-spacing: 1px;
+            }
+
+            .dvd-logo {
+                font-size: 2rem;
+                letter-spacing: 2px;
+            }
+
+            .draw-toggle,
+            .music-toggle {
+                width: 45px;
+                height: 45px;
+                font-size: 1.1rem;
+            }
+
+            .draw-toggle {
+                right: 70px;
+                bottom: 15px;
+            }
+
+            .music-toggle {
+                right: 15px;
+                bottom: 15px;
+            }
+
+            .blob {
+                filter: blur(40px);
+            }
+
+            .blob:nth-child(1) { width: 200px; height: 200px; }
+            .blob:nth-child(2) { width: 180px; height: 180px; }
+            .blob:nth-child(3) { width: 220px; height: 220px; }
+            .blob:nth-child(4) { width: 150px; height: 150px; }
+            .blob:nth-child(5) { width: 180px; height: 180px; }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 25px 20px;
+                margin: 10px;
+                border-radius: 16px;
+            }
+
+            h1 {
+                font-size: 1.3rem;
+                margin-bottom: 25px;
+            }
+
+            button {
+                padding: 12px 25px;
+                font-size: 0.9rem;
+            }
+
+            #noBtnEscape {
+                padding: 12px 25px;
+                font-size: 0.9rem;
+            }
+
+            .dvd-logo {
+                font-size: 1.5rem;
+                letter-spacing: 1px;
+            }
+
+            .message {
+                font-size: 1.2rem;
+            }
+
+            .shape {
+                transform: scale(0.7);
+            }
+        }
     </style>
 </head>
 <body>
@@ -612,6 +706,40 @@
         drawingCanvas.addEventListener('mousemove', draw);
         drawingCanvas.addEventListener('mouseup', stopDrawing);
         drawingCanvas.addEventListener('mouseout', stopDrawing);
+
+        // Touch events for mobile drawing
+        function startDrawingTouch(e) {
+            if (!isDrawingMode) return;
+            e.preventDefault();
+            const touch = e.touches[0];
+            isDrawing = true;
+            [lastX, lastY] = [touch.clientX, touch.clientY];
+        }
+
+        function drawTouch(e) {
+            if (!isDrawing || !isDrawingMode) return;
+            e.preventDefault();
+            const touch = e.touches[0];
+
+            drawCtx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+            drawCtx.lineWidth = 3;
+            drawCtx.lineCap = 'round';
+            drawCtx.shadowBlur = 10;
+            drawCtx.shadowColor = `hsl(${hue}, 100%, 50%)`;
+
+            drawCtx.beginPath();
+            drawCtx.moveTo(lastX, lastY);
+            drawCtx.lineTo(touch.clientX, touch.clientY);
+            drawCtx.stroke();
+
+            [lastX, lastY] = [touch.clientX, touch.clientY];
+            hue = (hue + 1) % 360;
+        }
+
+        drawingCanvas.addEventListener('touchstart', startDrawingTouch, { passive: false });
+        drawingCanvas.addEventListener('touchmove', drawTouch, { passive: false });
+        drawingCanvas.addEventListener('touchend', stopDrawing);
+        drawingCanvas.addEventListener('touchcancel', stopDrawing);
 
         // Toggle drawing mode
         drawToggle.addEventListener('click', () => {
@@ -766,6 +894,16 @@
             }
         });
 
+        // Touch sparkles for mobile
+        document.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            for (let i = 0; i < 2; i++) {
+                setTimeout(() => {
+                    createSparkle(touch.clientX, touch.clientY);
+                }, i * 50);
+            }
+        }, { passive: true });
+
         function createSparkle(x, y) {
             const sparkle = document.createElement('div');
             sparkle.className = 'sparkle';
@@ -899,11 +1037,13 @@
             animate();
         }
 
-        // Start 4 DVDs with different positions and speeds
-        createDVD('dvdLogo1', 50, 50, 1.2, 0.8);
-        createDVD('dvdLogo2', 400, 300, -1, 1.1);
-        createDVD('dvdLogo3', 200, 500, 0.9, -1.3);
-        createDVD('dvdLogo4', 600, 100, -1.1, -0.9);
+        // Start 4 DVDs with responsive positions and speeds
+        const screenW = window.innerWidth;
+        const screenH = window.innerHeight;
+        createDVD('dvdLogo1', screenW * 0.05, screenH * 0.05, 1.2, 0.8);
+        createDVD('dvdLogo2', screenW * 0.4, screenH * 0.3, -1, 1.1);
+        createDVD('dvdLogo3', screenW * 0.2, screenH * 0.5, 0.9, -1.3);
+        createDVD('dvdLogo4', screenW * 0.6, screenH * 0.1, -1.1, -0.9);
 
         // Create twinkling particles
         const particlesContainer = document.getElementById('particles');
